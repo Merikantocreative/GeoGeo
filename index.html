@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Design: Teemu Kullas (www.kullas.net) // Code: Klaus Romo (www.romo.fi)" />
+    <base target="_blank" />
+    <link rel="stylesheet" href="https://use.typekit.net/aoi8qeb.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link  rel='stylesheet'href="https://cdnjs.cloudflare.com/ajax/libs/roundSlider/1.3.3/roundslider.min.css">
+    <style type="text/css">
+
+        body { margin: 0; }
+
+        #wrapper {
+            width: 100%;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+        .row {
+            padding: 0;
+            margin: 0;
+        }
+        #lainalaskuri {
+            width: 100%;
+            background: #fff;
+            position: relative;
+        }
+        #lainalaskuri #sliderit {
+            height: 310px;
+        }
+        #lainalaskuri #slider1,
+        #lainalaskuri #slider2 {
+            position: absolute;
+            width: 50%;
+            top: 0;
+            z-index: 10;
+        }
+        #lainalaskuri #slider1 {
+            left: 0;
+        }
+        #lainalaskuri #slider2 {
+            left: 50%;
+        }
+        #lainalaskuri #slider1 label,
+        #lainalaskuri #slider2 label {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 10;
+            transform: translateX(-50%) translateY(-50%);
+            margin: 0;
+            font-family: chevin-pro, sans-serif;
+            color: #ff6c00;
+            background: #fff;
+            text-transform: uppercase;
+            font-size: 25px;
+            font-weight: 700;
+        }
+        #lainalaskuri .rs-path-color  {
+            background-color: #dcdcdc;
+        }
+        #lainalaskuri .rs-handle  {
+            background-color: #ff6b00;
+            z-index: 12;
+            cursor: pointer;
+        }
+        #lainalaskuri .rs-border  {
+            border: 0px none;
+        }
+        #lainalaskuri .rs-container .overlayBox {
+            width: 100px;
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            z-index: 6;
+            transform: translateX(-50%) translateY(-50%);
+            border-left: 30px transparent solid;
+            border-right: 30px transparent solid;
+            border-bottom: 60px solid #fff;
+        }
+        #lainalaskuri .rs-tooltip-text {
+            font-family: chevin-pro, sans-serif;
+            font-size: 25px;
+            border-radius: 0;
+            text-align: center;
+            color: #ff6c00;
+            font-weight: 700;
+            margin: 0 !important;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        #lainalaskuri .arrow {
+            width: 0px;
+            height: 0px;
+            position: absolute;
+            border-bottom: 12px #dcdcdc solid;
+            border-left: 12px solid transparent;
+            bottom: 0;
+            right: 31%;
+            z-index: 7;
+            transform: rotateZ(-110deg) scaleY(1.7);
+            border-right: 12px solid transparent;
+        }
+        #lainalaskuri #slider2 .arrow {
+            bottom: -1.2%;
+            right: auto;
+            left: 31%;
+            transform: rotateZ(-487deg) scaleY(1.7);
+        }
+
+        #lainalaskuri .dragdealer {
+            position: relative;
+            z-index: 10;
+            margin: 0 auto;
+        }
+
+        #lainalaskuri p.laskuriotsikko {
+            font-family: chevin-pro, sans-serif;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 62px;
+            text-align: center;
+            color: #6e6e6e;
+            line-height: 80px;
+            cursor: default;
+            white-space: nowrap;
+            margin: 55px auto 48px;
+        }
+        #lainalaskuri p.laskuriotsikko img {
+            max-width: 100%;
+        }
+
+        #lainalaskuri #maksuera {
+            padding: 0 0 20px;
+            position: absolute;
+            text-align: center;
+            color: #ff6b00;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom: 3px solid #dcdcdc;
+            min-width: 125px;
+        }
+        #lainalaskuri #maksuera p {
+            font-family: chevin-pro, sans-serif;
+            font-weight: 700;
+            font-size: 25px;
+            line-height: 30px;
+            color: #ff6b00;
+            margin: 0;
+        }
+        #lainalaskuri #nappi {
+            background: #ff6b00;
+            cursor: pointer;
+            height: 125px;
+            position: relative;
+            width: 125px;
+            z-index: 15;
+            margin-left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            transition: width 100ms, height 100ms, top 100ms, right 100ms;
+            -moz-transition: width 100ms, height 100ms, top 100ms, right 100ms;
+            -webkit-transition: width 100ms, height 100ms, top 100ms, right 100ms;
+        }
+        #lainalaskuri #nappi p {
+            font-family: chevin-pro, sans-serif;
+            font-weight: 700;
+            font-size: 25px;
+            letter-spacing: 2px;
+            line-height: 20px;
+            text-align: center;
+            margin: 45px 0 35px;
+            cursor: pointer;
+            color: #fff;
+        }
+        #lainalaskuri #nappi a,
+        #lainalaskuri #nappi a:active,
+        #lainalaskuri #nappi a:hover {
+            text-decoration: none;
+            outline: none;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #lainalaskuri #nappi:hover p {
+            color: #ffffff;
+        }
+
+        #lainalaskuri #palsta1 {
+            text-align: center;
+            margin: 60px auto;
+        }
+
+        #lainalaskuri .palsta p {
+            font-family: chevin-pro, sans-serif;
+            font-weight: 500;
+            font-size: 18px;
+            color: #6e6e6e;
+        }
+        #lainalaskuri ul {
+            font-family: chevin-pro, sans-serif;
+            width: 100%;
+            font-size: 20px;
+            margin-top: 5px;
+            padding-left: 55px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+
+		#lainalaskuri .palsta sup {
+            line-height: 0;
+        }
+        #lainalaskuri .palsta ul li {
+            line-height: 1.35;
+            color: #ee702d;
+            list-style-type: none;
+        }
+        #lainalaskuri .palsta ul li:before { 
+            content:"•"; 
+            font-size: 15px;
+            margin-right: 20px;
+            line-height: 30px;
+        }
+        #lainalaskuri .palsta ul li span {
+            font-size: 20px;
+            font-weight: 500;
+            color: #6e6e6e;
+        }
+        #lainalaskuri #info .alaviite {
+            color: #6e6e6e;
+            font-size: 18px;
+            text-align: center;
+            line-height: 1.2;
+            font-weight: 500;
+            margin: 45px 70px;
+        }
+        #lainalaskuri .noselect,
+        #lainalaskuri #info #infoboksi p,
+        #lainalaskuri #info #infoboksi ul li {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .clearfix:after {
+          content:"";
+          display:table;
+          clear:both;
+        }
+    @media screen and (max-width: 2000px) {
+        #wrapper {
+            max-width: 750px;
+        }
+        #lainalaskuri p.laskuriotsikko {
+            font-size: 44px;
+            line-height: 56px;
+            margin: 40px auto 35px;
+        }
+        #lainalaskuri #sliderit {
+            height: 230px;
+        }
+        #slider_lainan_maara,  #slider_lainan_kesto,  #slider_lainan_maara .rs-container,  #slider_lainan_kesto .rs-container {
+            width: 170px !important;
+            height: 170px !important;
+        }
+        #lainalaskuri .arrow {
+            border-bottom: 10px #dcdcdc solid;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+        #lainalaskuri .rs-handle {
+            height: 26px !important;
+            width: 26px !important;
+            margin: -13px 0px 0px -11.5px !important;
+        }
+        #lainalaskuri ul {
+            padding-left: 35px;
+        }
+        #lainalaskuri #palsta1 {
+            margin: 35px auto 24px;
+        }
+        #lainalaskuri .palsta p {
+            font-size: 15px;
+        }
+        #lainalaskuri #palsta3 ul {
+            padding-left: 0;
+        }
+        #lainalaskuri .palsta ul li span {
+            font-size: 16px;
+        }
+        #lainalaskuri .palsta ul li::before {
+            font-size: 13px;
+            margin-right: 20px;
+            line-height: 22px;
+        }
+        #lainalaskuri #info .alaviite {
+            font-size: 15px;
+            margin: 35px 40px;
+        }
+        #lainalaskuri #slider1 label,
+        #lainalaskuri #slider2 label,
+        #lainalaskuri .rs-tooltip-text,
+        #lainalaskuri #maksuera p {
+            font-size: 18px;
+        }
+        #lainalaskuri #maksuera {
+            bottom: 30px;
+            min-width: 100px;
+        }
+        #lainalaskuri #nappi {
+            height: 100px;
+            width: 100px;
+        }
+        #lainalaskuri #nappi p {
+            font-size: 18px;
+            line-height: 15px;
+            margin: 38px 0 32px;
+        }
+        #lainalaskuri .rs-container .overlayBox {
+            width: 70px;
+            height: 30px;
+            border-left: 20px transparent solid;
+            border-right: 20px transparent solid;
+            border-bottom: 45px solid #fff;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        #lainalaskuri #sliderit {
+            height: 270px;
+        }
+        #slider_lainan_maara,  #slider_lainan_kesto,  #slider_lainan_maara .rs-container,  #slider_lainan_kesto .rs-container {
+            width: 200px !important;
+            height: 200px !important;
+        }
+        #lainalaskuri #slider1 label,
+        #lainalaskuri #slider2 label,
+        #lainalaskuri .rs-tooltip-text,
+        #lainalaskuri #maksuera p {
+            font-size: 20px;
+        }
+        #lainalaskuri #maksuera {
+            bottom: 30px;
+            min-width: 115px;
+        }
+        #lainalaskuri #nappi {
+            height: 115px;
+            width: 115px;
+        }
+        #lainalaskuri #nappi p {
+            font-size: 20px;
+            line-height: 18px;
+            margin: 42px 0 37px;
+        }
+        #lainalaskuri ul {
+            padding-left: 25px;
+        }
+        #lainalaskuri #palsta1 {
+            margin: 30px auto;
+        }
+        #lainalaskuri .palsta p {
+            font-size: 15px;
+        }
+        #lainalaskuri #palsta3 ul {
+            padding-left: 0;
+        }        
+        #lainalaskuri .palsta ul li span {
+            font-size: 16px;
+        }
+        #lainalaskuri .palsta ul li:before { 
+            line-height: 20px;
+            margin-right: 15px;
+        }
+        #lainalaskuri #info .alaviite {
+            font-size: 15px;
+            margin: 30px 30px;
+        }
+    }
+    @media screen and (max-width: 650px) {
+        #lainalaskuri p.laskuriotsikko {
+            font-size: 40px;
+            line-height: 60px;
+            margin: 20px 20px;
+            white-space: normal;
+            width: 100%;
+            text-align: center;
+        }
+        
+        #lainalaskuri ul li {
+            margin-bottom: 5px;
+        }
+        #lainalaskuri .palsta p,
+        #lainalaskuri #info .alaviite {
+            font-size: 14px;
+        }
+        #lainalaskuri .palsta ul li span {
+            font-size: 15px;
+        }
+        
+    }
+    @media screen and (max-width: 575px) {
+        #lainalaskuri #sliderit {
+            height: 600px;
+        }
+        #slider_lainan_maara,  #slider_lainan_kesto,  #slider_lainan_maara .rs-container,  #slider_lainan_kesto .rs-container {
+            width: 220px !important;
+            height: 220px !important;
+        }
+        #lainalaskuri #slider1,
+        #lainalaskuri #slider2 {
+            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            position: relative;
+        }
+        #lainalaskuri #slider2 {
+            margin-top: 40px;
+        }
+        #lainalaskuri #maksuera {
+            bottom: 20px;
+        }
+        #lainalaskuri .palsta p {
+            margin: 0 25px;
+        }
+        #lainalaskuri ul {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #lainalaskuri #palsta3 ul {
+            padding-left: 25px;
+            margin-top: -4px;
+        }
+    }
+    @media screen and (max-width: 499px) {
+        /*
+        #lainalaskuri p.laskuriotsikko {
+            font-size: 36px;
+            line-height: 43px;
+            margin-bottom: 15px;
+        }
+        */
+        #lainalaskuri ul {
+            width: 70%;
+        }
+    }
+    @media screen and (max-width: 399px) {
+        #lainalaskuri ul {
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 319px) {
+        #lainalaskuri p.laskuriotsikko {
+            font-size: 32px;
+            line-height: 36px;
+        }        
+        #lainalaskuri #sliderit {
+            height: 590px;
+        }
+        #slider_lainan_maara,  #slider_lainan_kesto,  #slider_lainan_maara .rs-container,  #slider_lainan_kesto .rs-container {
+            width: 210px !important;
+            height: 210px !important;
+        }
+        #lainalaskuri #slider1 label,
+        #lainalaskuri #slider2 label,
+        #lainalaskuri .rs-tooltip-text,
+        #lainalaskuri #maksuera p {
+            font-size: 21px;
+        }
+        #lainalaskuri #maksuera {
+            bottom: 30px;
+            min-width: 125px;
+        }
+        #lainalaskuri #nappi {
+            height: 125px;
+            width: 125px;
+        }
+        #lainalaskuri #nappi p {
+            font-size: 21px;
+            line-height: 20px;
+            margin: 45px 0 35px;
+        }
+        #lainalaskuri .palsta p {
+            margin: 0 15px;
+        }
+        #lainalaskuri ul, #lainalaskuri #palsta3 ul {
+            padding-left: 15px;
+            font-size: 10px;
+        }
+        #lainalaskuri .palsta ul li::before {
+            display: none;
+        }
+        #lainalaskuri .palsta ul li {
+            list-style-type: disc;
+        }
+        #lainalaskuri #info .alaviite {
+            margin: 30px 10px;
+        }
+    }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/roundSlider/1.3.3/roundslider.min.js"></script>
+    <script language="javascript">
+        var slider1, slider2, loanAmount, loanTime, interest, annualPayment;
+        // Korkoprosentit lainan eri kestoille (1, 2, ..., 6+ vuotta)
+        var interestTable = [9, 5, 3.3, 2.8, 2.1, 1.7];
+        var updateTimer = null;
+        var manualInput = false;
+        var amount, time, payment, info, infoboksi, infonappi, hakunappi;
+		// Minimi ja maksimi lainamäärä
+        var MINAMOUNT = 2500;
+        var MAXAMOUNT = 50000;
+		// Minimi ja maksimi laina-aika
+        var MINTIME = 1;
+        var MAXTIME = 6;
+        var amountTimer = null;
+        var amountShown = false;
+        var timeTimer = null;
+        var timeShown = false;
+
+        window.onload = function () {
+
+            amount = document.getElementById('amount');
+            time = document.getElementById('time');
+            payment = document.getElementById('payment');
+
+            slider1 = $('#slider_lainan_maara').roundSlider({
+                    min: MINAMOUNT,
+                    max: MAXAMOUNT,
+                    step: 500,
+                    radius: 120,
+                    width: 3,
+                    handleSize: "+28",
+                    startAngle: 290,
+                    endAngle: 250,
+                    editableTooltip: false,
+                    tooltipFormat: "updateAmountTooltip",
+                    change: "updateAmount",
+                    /*drag: "showAmount",*/
+                    create: "initializeSlider"
+                 });
+            slider2 = $('#slider_lainan_kesto').roundSlider({
+                    min: MINTIME,
+                    max: MAXTIME,
+                    value: MAXTIME,
+                    step: 1,
+                    radius: 120,
+                    width: 3,
+                    handleSize: "+28",
+                    startAngle: 290,
+                    endAngle: 250,
+                    editableTooltip: false,
+                    tooltipFormat: "updateTimeTooltip",
+                    change: "updateTime",
+                    /*drag: "showTime",*/
+                    create: "initializeSlider"
+                });
+            $('#slider1 .rs-handle').on('mouseover', function(){
+                if (!amountShown) {
+                    $('#slider1').find('label').fadeOut( function(){ amountShown = 1; } );
+                }
+            });
+            $('#slider1 .rs-handle').on('mouseout', function(){
+                if (!amountShown) {
+                    $('#slider1').find('label').fadeIn( 'fast', function(){ amountShown = 0;} );
+                }
+            });
+            $('#slider2 .rs-handle').on('mouseover', function(){
+                if (!timeShown) {
+                    $('#slider2').find('label').fadeOut( function(){ timeShown = 1; } );
+                }
+            });
+            $('#slider2 .rs-handle').on('mouseout', function(){
+                if (!timeShown) {
+                    $('#slider2').find('label').fadeIn( 'fast', function(){ timeShown = 0; } );
+                }
+            });
+            if (isTouchSupported) {
+                $('#slider1 .rs-handle').on('touchstart', function(){
+                    if (!amountShown) {
+                        $('#slider1').find('label').fadeOut( function(){ amountShown = 1; } );
+                    }
+                });
+                $('#slider1 .rs-handle').on('touchend', function(){
+                    if (!amountShown) {
+                        $('#slider1').find('label').fadeIn( 'fast', function(){ amountShown = 0;} );
+                    }
+                });
+                $('#slider2 .rs-handle').on('touchstart', function(){
+                    if (!timeShown) {
+                        $('#slider2').find('label').fadeOut( function(){ timeShown = 1; } );
+                    }
+                });
+                $('#slider2 .rs-handle').on('touchend', function(){
+                    if (!timeShown) {
+                        $('#slider2').find('label').fadeIn( 'fast', function(){ timeShown = 0; } );
+                    }
+                });
+            }
+        };
+        var initializeSlider = function(e) {
+            $('#' + e.id + ' .rs-container').append('<div class="overlayBox" />').append('<div class="arrow" />');
+        };
+        var updateAmount = function(e) {
+            if (!manualInput) {
+                updateTotal();
+            }
+        };
+        var updateAmountTooltip = function(e) {
+            amount = e.value;
+            updateTotal();
+            return e.value + ' €';
+        };
+        var showAmount = function(e) {
+            if (!amountShown && amountTimer == null) {
+                    amountTimer = setTimeout(function(){ $('#slider1').find('label:visible').fadeOut(); amountShown = true; }, 200);
+            }
+        };
+        var updateTime = function(e) {
+            if (!manualInput) {
+                updateTotal();
+            }
+        };
+        var updateTimeTooltip = function(e) {
+            time = e.value;
+            updateTotal();
+            return e.value + ' vuotta';
+        };
+        var showTime = function(e) {
+            if (!timeShown && timeTimer == null) {
+                    timeTimer = setTimeout(function(){ $('#slider2').find('label:visible').fadeOut(); timeShown = true; }, 200);
+            }
+        };
+
+        var updateTotal = function () {
+            interest = interestTable[time-1];
+            // Edit: Helpotetaan laskukaavaa
+            // var newPayment = Math.round( (loanAmount * ((interest / 12) / 100)) / (1 - Math.pow(1 + ((interest / 12) / 100), -(loanTime * 12))) ) + ' \u20AC';
+            var newPayment = Math.round( amount * (interest / 100) );
+            // Minimierä 50 €
+            if (newPayment < 50) newPayment = 50;
+            payment.innerHTML = newPayment + ' \u20AC';
+        };
+        var inputHandler = function (event) {
+            if (updateTimer != null) {
+                clearTimeout(updateTimer);
+                updateTimer = null;
+            }
+            manualInput = true;
+            try {
+                var myInput = (event.target !== undefined) ? event.target : event.srcElement;
+            } catch (e) {
+                var myInput = this;
+            }
+            switch (myInput.id) {
+                case 'amount':
+                    updateTimer = setTimeout(function () {
+                        var myAmount = parseInt(myInput.value);
+                        if (isNaN(myAmount) || myAmount < MINAMOUNT) myAmount = MINAMOUNT;
+                        else if (myAmount > MAXAMOUNT) myAmount = MAXAMOUNT;
+                        myInput.value = myAmount;
+                        var newPct = (myAmount - MINAMOUNT) / (MAXAMOUNT - MINAMOUNT);
+                        slider1.setValue(newPct, 0, true);
+                        updateTimer = null;
+                        setTimeout(function(){ manualInput = false; updateTotal(); }, 1000);
+                    }, 500);
+                    break;
+                case 'time':
+                    updateTimer = setTimeout(function () {
+                        var myTime = parseInt(myInput.value);
+                        if (isNaN(myTime) || myTime < MINTIME) myTime = MINTIME;
+                        else if (myTime > MAXTIME) myTime = MAXTIME;
+                        myInput.value = myTime;
+                        var newPct = (myTime - MINTIME) / (MAXTIME - MINTIME);
+                        slider2.setValue(newPct, 0, true);
+                        updateTimer = null;
+                        setTimeout(function(){ manualInput = false; updateTotal(); }, 1000);
+                    }, 500);
+                    break;
+            }
+        };
+        var getStyle = function (id, name) {
+            var element = document.getElementById(id);
+            return element.currentStyle ? element.currentStyle[name] : window.getComputedStyle ? window.getComputedStyle(element, null).getPropertyValue(name) : null;
+        };
+        var isTouchSupported = function () {
+            var msTouchEnabled = window.navigator.msMaxTouchPoints;
+            var generalTouchEnabled = "ontouchstart" in document.createElement("div");
+
+            if (msTouchEnabled || generalTouchEnabled) {
+                return true;
+            }
+            return false;
+        };
+
+    </script>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="lainalaskuri" class="vaaka">
+        <div class="row">
+            <p class="laskuriotsikko">Hae&nbsp;tarpeisiisi sopiva&nbsp;rahoitus</p>
+        </div>
+        <div class="row" id="sliderit">
+            <div class="col-sm-8 offset-sm-2">
+                <div id="slider1">
+                    <div id="slider_lainan_maara" class="dragdealer">
+                    </div>
+                    <label class="noselect">Lainasumma</label>
+                </div>
+                <div id="slider2">
+                    <div id="slider_lainan_kesto" class="dragdealer">
+                    </div>
+                    <label class="noselect">Maksuaika</label>
+                </div>
+                <div id="maksuera">
+                        <p class="noselect"><span id="payment"></span> / kk</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="nappi">
+                <a href="https://eficode.pohjola-finance.fi/kertaluotto-uusi/geogeo" target="_blank">
+                    <p class="noselect">HAE<br />&raquo;</p>
+                </a>
+            </div>
+        </div>
+        <div class="row" id="info">
+                <div class="col-sm-10 offset-sm-1 palsta" id="palsta1">
+                    <p>Hae-painiketta napsauttamalla siirryt rahoituksen haku -sivulle, jossa voit hakea juuri sinulle sopivan summan haluamallasi kuukausierällä käyttöösi.</p>
+                </div>
+                <div class="col-sm-6 palsta" id="palsta2">
+                    <ul>
+                        <li><span>Rahoitus 2 500 – 50 000€</span></li>
+                        <li><span>1 kk korotonta ja kulutonta maksuaikaa</span></li>
+                        <li><span>Joustava takaisinmaksu</span></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 palsta" id="palsta3">
+                    <ul>
+                        <li><span>Edullinen korko OP Prime +&nbsp;6,95% -<NOBR></NOBR>yks.<sup></sup></span></li>
+                        <li><span>Laskutuspalkkio 7€/kk</span></li>
+                        <li><span>Ei luoton perustamismaksua</span></li>
+                    </ul>
+                </div>
+                <div class="col-sm-12 palsta">
+                    <p class="alaviite">Rahoitus on kertaluotto, jonka todellinen vuosikorko 10&nbsp;000 euron luotolle on 8,74&nbsp;%, kun luoton korko on OP-prime +&nbsp;6,95%, (7,20&nbsp;% 02/21), laskutuspalkkio 7&nbsp;€/kk. Arvioitu luoton kokonaiskustannus on 12&nbsp;941,00&nbsp;€. Laskelma on tehty olettaen, että luotto on nostettu kokonaan, luoton korko sekä maksut ja palkkiot pysyvät samana koko luottoajan ja luotto maksetaan takaisin 170&nbsp;€ minimilyhennyksin (1,7&nbsp;% luoton määrästä) kuukauden välein, jolloin luottoaika on 77&nbsp;kk. Luoton myöntää OP&nbsp;Yrityspankki&nbsp;Oyj, Gebhardinaukio&nbsp;1, 00510 Helsinki.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
